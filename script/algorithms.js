@@ -4,7 +4,12 @@ import { PriorityQueue, Cell } from "./ds.js"
 const board = new Board(ROWS, COLS)
 board.generate()
 board.startingPosition(0, 0)
-board.destinationPosition(0, 30)
+board.destinationPosition(5, 5)
+board.dfs()
+
+
+
+
 const pq = new PriorityQueue()
 const starting = new Cell(board.startX, board.startY, 
   manhattan(board.startX, board.startY, board.endX, board.endY), 0, 
@@ -75,7 +80,7 @@ function aStar(board) {
 function manhattan(startX, startY, endX, endY) {
   return Math.sqrt(Math.pow(startX - endX, 2) + Math.pow(startY - endY, 2))
 }
-function getNeighbors(x, y) {
+export function getNeighbors(x, y) {
   let neighbors = []
   if (x - 1 >= 0)
     neighbors.push([x - 1, y])
