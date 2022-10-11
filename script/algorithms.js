@@ -20,7 +20,7 @@ document.querySelector("#a-star").addEventListener("click", () => {
 })
 
 function aStar(board) {
-  // debugger
+  
   const cell = pq.dequeue()
   if (cell.x == board.endX && cell.y == board.endY) {
     // found solution
@@ -43,7 +43,6 @@ function aStar(board) {
       if (open.has(`.r${x}c${y}`)) {
         if (open.get(`.r${x}c${y}`) > f) {
           // found better path for the same node that exists in the open list
-          console.log("found better path")
           pq.enqueue(neighbor)
           open.set(`.r${x}c${y}`, f)
         }
@@ -51,13 +50,13 @@ function aStar(board) {
       else if (closed.has(`.r${x}c${y}`)) {
         if (closed.get(`.r${x}c${y}`) > f) {
           // found better path for the same node that was already traveled
-          console.log("found better path")
           pq.enqueue(neighbor)
           closed.set(`.r${x}c${y}`, f)
         }
       }
       else {
         pq.enqueue(neighbor)
+        open.set(`.r${x}c${y}`, cell.f)
       }
     }
   }
@@ -70,7 +69,7 @@ function aStar(board) {
   }
   setTimeout(() => {
     aStar(board)
-  }, 100)
+  }, 10)
   // aStar(board)
 }
 function manhattan(startX, startY, endX, endY) {
