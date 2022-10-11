@@ -1,15 +1,15 @@
-const ROWS = 30
-const COLS = 50
+export const ROWS = 30
+export const COLS = 50
 
-class Board {
+export class Board {
   constructor(rows, cols) {
     this.rows = rows
     this.cols = cols
     this.board = document.querySelector(".board")
     this.startX = undefined
     this.startY = undefined
-    this.destinationX = undefined
-    this.destinationY = undefined
+    this.endX = undefined
+    this.endY = undefined
   }
   generate() {
     for (let i = 0; i < this.rows; i++) {
@@ -31,13 +31,8 @@ class Board {
     document.querySelector(`.r${x}c${y}`).classList.add("start")
   }
   destinationPosition(x, y) {
-    this.destinationX = x
-    this.destinationY = y
+    this.endX = x
+    this.endY = y
     document.querySelector(`.r${x}c${y}`).classList.add("destination")
   }
 }
-
-const board = new Board(ROWS, COLS)
-board.generate()
-board.startingPosition(0, 0)
-board.destinationPosition(0, 30)
