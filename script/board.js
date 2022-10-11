@@ -20,6 +20,9 @@ export class Board {
         const col = document.createElement("div")
         col.classList.add(`r${i}c${j}`)
         col.classList.add("cell")
+        col.addEventListener("click", () => {
+          col.classList.add("wall")
+        })
         row.append(col)
       }
       this.board.append(row)

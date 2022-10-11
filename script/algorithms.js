@@ -5,7 +5,6 @@ const board = new Board(ROWS, COLS)
 board.generate()
 board.startingPosition(0, 0)
 board.destinationPosition(0, 30)
-
 const pq = new PriorityQueue()
 const starting = new Cell(board.startX, board.startY, 
   manhattan(board.startX, board.startY, board.endX, board.endY), 0, 
@@ -14,9 +13,14 @@ pq.enqueue(starting)
 const open = new Map()
 const closed = new Map()
 const aStarPath = []
-aStar(board)
+// aStar(board)
+
+document.querySelector("#a-star").addEventListener("click", () => {
+  aStar(board)
+})
 
 function aStar(board) {
+  // debugger
   const cell = pq.dequeue()
   if (cell.x == board.endX && cell.y == board.endY) {
     // found solution
@@ -24,41 +28,50 @@ function aStar(board) {
     displayPath(aStarPath)
     return
   }
-  open.set((cell.x, cell.y), cell.f)
+  document.querySelector(`.r${cell.x}c${cell.y}`).classList.add("explored")
+  open.set(`.r${cell.x}c${cell.y}`, cell.f)
   
   let neighbors = getNeighbors(cell.x, cell.y)
   for (let i = 0; i < neighbors.length; i++) {
     const x = neighbors[i][0]
     const y = neighbors[i][1]
-    const g = manhattan(x, y, starting.x, starting.y)
-    const h = manhattan(x, y, board.endX, board.endY)
-    const f = g + h
-    const neighbor = new Cell(x, y, f, g, h, cell)
-    if (open.has((x, y))) {
-      if (open.get((x, y)) > f) {
-        // found better path for the same node that exists in the open list
+    if (!document.querySelector(`.r${x}c${y}`).classList.contains("wall")) {
+      const g = manhattan(x, y, starting.x, starting.y)
+      const h = manhattan(x, y, board.endX, board.endY)
+      const f = g + h
+      const neighbor = new Cell(x, y, f, g, h, cell)
+      if (open.has(`.r${x}c${y}`)) {
+        if (open.get(`.r${x}c${y}`) > f) {
+          // found better path for the same node that exists in the open list
+          console.log("found better path")
+          pq.enqueue(neighbor)
+          open.set(`.r${x}c${y}`, f)
+        }
+      }
+      else if (closed.has(`.r${x}c${y}`)) {
+        if (closed.get(`.r${x}c${y}`) > f) {
+          // found better path for the same node that was already traveled
+          console.log("found better path")
+          pq.enqueue(neighbor)
+          closed.set(`.r${x}c${y}`, f)
+        }
+      }
+      else {
         pq.enqueue(neighbor)
       }
-    }
-    else if (closed.has((x, y))) {
-      if (closed.get((x, y)) > f) {
-        // found better path for the same node that was already traveled
-        pq.enqueue(neighbor)
-      }
-    }
-    else {
-      pq.enqueue(neighbor)
     }
   }
-  closed.set((cell.x, cell.y), cell.f)
+  closed.set(`.r${cell.x}c${cell.y}`, cell.f)
 
   if (pq.length() == 0) {
     // no solution
     console.log("no solution")
     return
   }
-
-  aStar(board)
+  setTimeout(() => {
+    aStar(board)
+  }, 100)
+  // aStar(board)
 }
 function manhattan(startX, startY, endX, endY) {
   return Math.sqrt(Math.pow(startX - endX, 2) + Math.pow(startY - endY, 2))

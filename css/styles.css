@@ -16,11 +16,18 @@
   border: 1px solid black;
 }
 .start {
-  background-color: green;
+  background-color: green !important;
 }
 .destination {
-  background-color: red;
+  background-color: red !important;
+}
+
+.explored {
+  background-color: gray;
 }
 .travel {
   background-color: blue;
+}
+.wall {
+  background-color: black !important;
 }
