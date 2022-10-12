@@ -1,7 +1,9 @@
-// export const ROWS = 30
-// export const COLS = 50
-export const ROWS = 10;
-export const COLS = 10;
+export const ROWS = 40;
+export const COLS = 70;
+// export const SCREEN_WIDTH = screen.width;
+// export const SCREEN_HEIGHT = screen.height * 0.8;
+// export const ROWS = 10;
+// export const COLS = 10;
 
 export class Board {
   constructor(rows, cols) {
@@ -63,6 +65,12 @@ export class Board {
     this.endX = x;
     this.endY = y;
     document.querySelector(`.r${x}c${y}`).classList.add("destination");
+    // document.querySelector(
+    //   `.r${x}c${y}`
+    // ).textContent = `<i class="fa-duotone fa-flag-checkered"></i>`;
+    // document
+    //   .querySelector(`.r${x}c${y}`)
+    //   .innerHTML(`<i class="fa-duotone fa-flag-checkered"></i>`);
   }
   // cur = pop off stack
   // next = random neighbor from cur
